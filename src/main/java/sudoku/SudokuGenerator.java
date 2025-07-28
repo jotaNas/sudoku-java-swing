@@ -59,9 +59,9 @@ public class SudokuGenerator {
 
     private void removeCells(String difficulty) {
         int toKeep = switch (difficulty.toLowerCase()) {
-            case "fácil" -> 40;
-            case "médio" -> 32;
-            case "difícil" -> 28;
+            case "facil" -> 40;
+            case "medio" -> 32;
+            case "dificil" -> 28;
             default -> 36;
         };
 

@@ -13,7 +13,7 @@ public class SudokuGame extends JFrame {
 
     public SudokuGame() {
     	JPanel topPanel = new JPanel();
-    	String[] difficulties = {"Fácil", "Médio", "Difícil"};
+    	String[] difficulties = {"Facil", "Medio", "Dificil"};
     	JComboBox<String> difficultyBox = new JComboBox<>(difficulties);
     	JButton newGameButton = new JButton("Novo Jogo");
 
@@ -35,19 +35,34 @@ public class SudokuGame extends JFrame {
         JPanel grid = new JPanel(new GridLayout(SIZE, SIZE));
         Font font = new Font("Arial", Font.BOLD, 20);
 
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                JTextField cell = new JTextField();
-                cell.setHorizontalAlignment(JTextField.CENTER);
-                cell.setFont(font);
-                cells[i][j] = cell;
-                grid.add(cell);
+        JPanel gridPanel = new JPanel(new GridLayout(3, 3));
+
+        for (int blockRow = 0; blockRow < 3; blockRow++) {
+            for (int blockCol = 0; blockCol < 3; blockCol++) {
+                JPanel subGrid = new JPanel(new GridLayout(3, 3));
+                subGrid.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        int row = blockRow * 3 + i;
+                        int col = blockCol * 3 + j;
+
+                        JTextField cell = new JTextField();
+                        cell.setHorizontalAlignment(JTextField.CENTER);
+                        cell.setFont(font);
+                        cells[row][col] = cell;
+                        subGrid.add(cell);
+                    }
+                }
+
+                gridPanel.add(subGrid);
             }
         }
 
-        add(grid, BorderLayout.CENTER);
+        add(gridPanel, BorderLayout.CENTER);
+
         
-        startNewGame("fácil");
+        startNewGame("facil");
         setVisible(true);
         
         JButton checkButton = new JButton("Verificar");
@@ -81,23 +96,23 @@ public class SudokuGame extends JFrame {
             for (int j = 0; j < SIZE; j++) {
                 String text = cells[i][j].getText();
                 if (text.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Há células vazias.");
+                    JOptionPane.showMessageDialog(this, "Ha celulas vazias.");
                     return;
                 }
                 try {
                     int value = Integer.parseInt(text);
                     if (value != solution[i][j]) {
-                        JOptionPane.showMessageDialog(this, "Solução incorreta.");
+                        JOptionPane.showMessageDialog(this, "Solucao incorreta.");
                         return;
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Valor inválido em (" + (i + 1) + "," + (j + 1) + ")");
+                    JOptionPane.showMessageDialog(this, "Valor invalido em (" + (i + 1) + "," + (j + 1) + ")");
                     return;
                 }
             }
         }
 
-        JOptionPane.showMessageDialog(this, "Parabéns! Você completou o Sudoku!");
+        JOptionPane.showMessageDialog(this, "Parabens! Voce completou o Sudoku!");
     }
 
     public static void main(String[] args) {
