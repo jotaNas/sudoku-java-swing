@@ -49,7 +49,13 @@ public class SudokuGame extends JFrame {
         
         startNewGame("fácil");
         setVisible(true);
+        
+        JButton checkButton = new JButton("Verificar");
+        add(checkButton, BorderLayout.SOUTH);
+
+        checkButton.addActionListener(e -> checkSolution());
     }
+    
     private void startNewGame(String difficulty) {
         SudokuGenerator generator = new SudokuGenerator();
         board = generator.generate(difficulty);
@@ -69,6 +75,29 @@ public class SudokuGame extends JFrame {
                 }
             }
         }
+    }
+    private void checkSolution() {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                String text = cells[i][j].getText();
+                if (text.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Há células vazias.");
+                    return;
+                }
+                try {
+                    int value = Integer.parseInt(text);
+                    if (value != solution[i][j]) {
+                        JOptionPane.showMessageDialog(this, "Solução incorreta.");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Valor inválido em (" + (i + 1) + "," + (j + 1) + ")");
+                    return;
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(this, "Parabéns! Você completou o Sudoku!");
     }
 
     public static void main(String[] args) {
